@@ -1,0 +1,264 @@
+Bilkul. **Middleware** ko hamesha alag folder me rakhna best practice hai. Jab project bada hota hai (JWT, Authentication, Admin, Validation), tab middleware bahut use hota hai.
+
+# 📁 File Structure
+
+```text
+project/
+│
+├── controllers/
+│   └── userController.js
+│
+├── routes/
+│   └── userRoutes.js
+│
+├── middleware/
+│   └── authMiddleware.js
+│
+├── server.js
+│
+└── package.json
+```
+
+---
+
+# Example 1: Simple Middleware
+
+## middleware/authMiddleware.js
+
+```js
+const authMiddleware = (req, res, next) => {
+  console.log("Middleware Executed");
+
+  next(); // Next route/controller par bhej dega
+};
+
+module.exports = authMiddleware;
+```
+
+---
+
+## routes/userRoutes.js
+
+```js
+const express = require("express");
+const router = express.Router();
+
+const { register } = require("../controllers/userController");
+const authMiddleware = require("../middleware/authMiddleware");
+
+router.post("/users", authMiddleware, register);
+
+module.exports = router;
+```
+
+---
+
+## Output
+
+Jab API hit hogi
+
+```text
+POST /api/users
+```
+
+Console
+
+```text
+Middleware Executed
+```
+
+Fir controller chalega.
+
+---
+
+# Flow
+
+```text
+Client
+   │
+   ▼
+server.js
+   │
+app.use("/api", userRoutes)
+   │
+   ▼
+userRoutes.js
+   │
+authMiddleware
+   │
+next()
+   │
+   ▼
+register Controller
+   │
+Response
+```
+
+---
+
+# `next()` kya hota hai?
+
+```js
+const authMiddleware = (req, res, next) => {
+
+    console.log("Checking...");
+
+    next();
+}
+```
+
+`next()` bolta hai:
+
+> "Ab next middleware ya controller chala do."
+
+Agar `next()` nahi likhoge to request wahi ruk jayegi.
+
+---
+
+# Middleware me kya-kya kaam kar sakte ho?
+
+### ✅ Authentication
+
+```js
+JWT Verify
+```
+
+---
+
+### ✅ Authorization
+
+```js
+Admin hai ya User?
+```
+
+---
+
+### ✅ Validation
+
+```js
+Email empty hai?
+Password 8 character ka hai?
+```
+
+---
+
+### ✅ Logging
+
+```js
+Kon API hit kar raha hai?
+Time kya hai?
+```
+
+---
+
+### ✅ Rate Limiting
+
+```js
+Ek minute me kitni request?
+```
+
+---
+
+### ✅ File Upload
+
+```js
+Multer
+```
+
+---
+
+### ✅ Error Handling
+
+```js
+Global Error Middleware
+```
+
+---
+
+# Interview Example (JWT)
+
+```js
+const jwt = require("jsonwebtoken");
+
+const authMiddleware = (req, res, next) => {
+
+    const token = req.headers.authorization;
+
+    if(!token){
+        return res.status(401).json({
+            message:"Token Missing"
+        });
+    }
+
+    try{
+
+        const decoded = jwt.verify(token,"secret");
+
+        req.user = decoded;
+
+        next();
+
+    }catch(err){
+
+        return res.status(401).json({
+            message:"Invalid Token"
+        });
+
+    }
+
+}
+
+module.exports = authMiddleware;
+```
+
+---
+
+# Kab middleware use karte hain?
+
+❌ Public API
+
+```text
+Register
+Login
+Forgot Password
+```
+
+✅ Protected API
+
+```text
+Profile
+Update Profile
+Delete User
+Dashboard
+Logout
+```
+
+Example:
+
+```js
+router.get("/profile", authMiddleware, profile);
+```
+
+Pehle middleware chalega → token verify karega → agar valid hua to `profile` controller chalega.
+
+---
+
+## Yaad rakhne ka shortcut
+
+```text
+server.js
+    │
+    ▼
+Routes
+    │
+    ▼
+Middleware (Checking)
+    │
+    ▼
+Controller (Business Logic)
+    │
+    ▼
+Response
+```
+
+Ye hi structure lagbhag har professional Express/MERN project me use hota hai.

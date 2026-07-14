@@ -1,0 +1,41 @@
+Question 3 (Easy → Medium)
+
+Ab thoda real interview level.
+
+Update User API
+
+Create:
+
+PUT /api/users/:id
+
+Body:
+
+{
+  "name": "Shavan Singh",
+  "age": 24
+}
+
+If all fields are present, return:
+
+{
+  "success": true,
+  "message": "User updated successfully",
+  "user": {
+    "id": 1,
+    "name": "Shavan Singh",
+    "age": 24
+  }
+}
+Requirements
+Use req.params
+Use req.body
+Validate:
+id required
+name required
+age required
+Return 200 on success.
+Return 400 if any field is missing.
+
+💡 Hint: id URL se aayega (req.params), aur name & age body se (req.body).
+
+Code bhejo, main interviewer ki tarah review karunga.

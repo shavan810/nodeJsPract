@@ -1,0 +1,41 @@
+Node.js + Express Project Structure
+
+project/ 
+│ ├── controllers/ 
+│ └── userController.js 
+├── routes/ 
+│ └──userRoutes.js  
+├── server.js 
+├── package.json 
+└── node_modules/
+
+Short Notes
+
+1.  server.js
+
+-   Express app create kiya.
+-   express.json() use kiya JSON body read karne ke liye.
+-   userRoutes ko require kiya.
+-   app.use(“/api”, userRoutes) se router connect kiya.
+-   app.listen() se server start kiya.
+
+2.  routes/userRoutes.js
+
+-   express.Router() use kiya.
+-   Controller import kiya.
+-   router.post(“/users”, register) route banaya.
+-   module.exports = router se export kiya.
+
+3.  controllers/userController.js
+
+-   register controller banaya.
+-   req.body se name aur age liya.
+-   Validation ki.
+-   Success/Error response bheja.
+-   module.exports = { register } se export kiya.
+
+
+Important
+
+app.use() -> Router/Middleware connect karne ke liye. app.post() -> POST
+API banane ke liye. module.exports -> Export. require() -> Import.

@@ -1,0 +1,104 @@
+Great! 😎 Interview mode ON.
+
+---
+
+# Question 1 ⭐ (Easy)
+
+## Create a GET API
+
+Create an Express server.
+
+When the user visits:
+
+```http
+GET /api/users
+```
+
+Return the following JSON:
+
+```json
+{
+  "success": true,
+  "message": "Users fetched successfully",
+  "data": [
+    {
+      "id": 1,
+      "name": "Rahul"
+    },
+    {
+      "id": 2,
+      "name": "Shavan"
+    }
+  ]
+}
+```
+
+Server should run on port **5000**.
+
+---
+
+### Requirements
+
+* Use Express
+* Create `server.js`
+* Use `app.get()`
+* Return JSON using `res.json()`
+
+---
+
+### Folder
+
+```
+project/
+│
+├── server.js
+├── package.json
+```
+
+---
+
+### ⛔ Rules
+
+* Google nahi 😄
+* ChatGPT ka answer mat dekho (abhi 😆)
+* Pehle khud likho.
+
+Bas apna `server.js` code bhejo.
+
+Main check karunga:
+
+* ✅ Correct
+* ❌ Mistakes
+* ⭐ Interview tips
+* 🔥 Better approach
+
+Ready... Coding start! 🚀
+
+
+
+my answers ......
+const express = require("express");
+const app = express();
+
+app.use(express.json());
+
+app.get("/api/users", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Users fetched successfully",
+    data: [
+      {
+        id: 1,
+        name: "Rahul",
+      },
+      {
+        id: 2,
+        name: "Shavan",
+      },
+    ],
+  });
+});
+
+app.listen(5000, () => {
+  console.log(`Port is runing on ${5000}`);
+});
