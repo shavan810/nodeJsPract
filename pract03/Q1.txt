@@ -1,0 +1,89 @@
+# Question 1 (Medium)
+
+## Build a User CRUD REST API (Without Database)
+
+Create a Node.js + Express application.
+
+### Requirements
+
+Create the following APIs:
+
+| Method | Endpoint     | Description          |
+| ------ | ------------ | -------------------- |
+| GET    | `/users`     | Return all users     |
+| GET    | `/users/:id` | Return a single user |
+| POST   | `/users`     | Add a new user       |
+| PUT    | `/users/:id` | Update a user        |
+| DELETE | `/users/:id` | Delete a user        |
+
+Initial data:
+
+```js
+const users = [
+  { id: 1, name: "John", age: 25 },
+  { id: 2, name: "Alice", age: 22 }
+];
+```
+
+### Validation
+
+For `POST` and `PUT`:
+
+* `name` is required.
+* `age` is required.
+* `age` must be a number.
+* `age` must be greater than 0.
+* Return proper HTTP status codes.
+
+### Expected Responses
+
+#### Create
+
+```http
+POST /users
+```
+
+Request
+
+```json
+{
+  "name": "Shavan",
+  "age": 23
+}
+```
+
+Response
+
+```json
+{
+  "message": "User created successfully",
+  "user": {
+    "id": 3,
+    "name": "Shavan",
+    "age": 23
+  }
+}
+```
+
+---
+
+#### User Not Found
+
+```http
+GET /users/10
+```
+
+Response
+
+```json
+{
+  "message": "User not found"
+}
+```
+
+Status:
+
+```
+404
+```
+
